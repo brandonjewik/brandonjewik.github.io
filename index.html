@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mometrix Academy - MCAT Result #21977677</title>
+    <title>Mometrix Test Prep Portal - MCAT Score Report</title>
+    <!-- MathJax for rendering LaTeX-style formulas dynamically -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
         :root {
             --mometrix-blue: #023e8a;
@@ -15,178 +18,630 @@
             --white: #ffffff;
             --success: #2a9d8f;
             --danger: #e63946;
+            --border: #e2e8f0;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--bg-light); color: var(--text-dark); padding-bottom: 50px; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
 
-        /* Navbar */
-        .nav { background: var(--white); border-bottom: 3px solid var(--mometrix-orange); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .logo { font-weight: 800; font-size: 1.5rem; color: var(--mometrix-blue); text-decoration: none; }
-        .logo span { color: var(--mometrix-orange); }
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
 
-        /* Content Container */
-        .container { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
-        .breadcrumb { font-size: 0.8rem; color: var(--text-light); margin-bottom: 20px; }
+        /* Top Navigation */
+        .navbar {
+            background-color: var(--white);
+            border-bottom: 3.5px solid var(--mometrix-orange);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
 
-        /* Score Card */
-        .card { background: var(--white); border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow: hidden; }
-        .card-header { padding: 25px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
-        .card-header h1 { font-size: 1.4rem; color: var(--mometrix-blue); }
+        .brand {
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: var(--mometrix-blue);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
 
-        /* Hero Stats */
-        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); background: var(--mometrix-light-blue); padding: 30px 20px; text-align: center; gap: 10px; }
-        .stat-box h3 { font-size: 0.75rem; text-transform: uppercase; color: var(--mometrix-blue); margin-bottom: 10px; opacity: 0.8; }
-        .stat-val { font-size: 2.2rem; font-weight: 800; color: var(--text-dark); }
-        .stat-val span { font-size: 1rem; color: var(--text-light); font-weight: 400; }
+        .brand span {
+            color: var(--mometrix-orange);
+        }
 
-        /* Table */
-        .section-table { width: 100%; border-collapse: collapse; background: var(--white); }
-        .section-table th { text-align: left; padding: 15px 25px; background: #f8fafc; color: var(--mometrix-blue); font-size: 0.85rem; text-transform: uppercase; border-bottom: 2px solid #edf2f7; }
-        .section-table td { padding: 18px 25px; border-bottom: 1px solid #edf2f7; cursor: pointer; transition: background 0.2s; }
-        .section-table tr:hover td { background: #fdfdfd; }
-        
-        .score-badge { background: var(--mometrix-blue); color: white; padding: 4px 10px; border-radius: 4px; font-weight: bold; }
-        .percentile { color: var(--text-light); font-size: 0.9rem; }
+        .nav-status {
+            background-color: #f1f5f9;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--mometrix-blue);
+        }
 
-        /* Hidden Review Panel */
-        .review-panel { display: none; padding: 20px 25px; background: #fcfcfc; border-bottom: 1px solid #edf2f7; animation: slideDown 0.3s ease-out; }
-        .active { display: block; }
-        
+        /* Container Layout */
+        .container {
+            max-width: 1050px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .breadcrumb {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+
+        .breadcrumb a {
+            color: var(--mometrix-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* Main Portal Card */
+        .score-card {
+            background: var(--white);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .portal-header {
+            padding: 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .portal-header h1 {
+            font-size: 1.6rem;
+            color: var(--mometrix-blue);
+            font-weight: 800;
+            margin-bottom: 0.3rem;
+        }
+
+        .portal-header p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .btn-action {
+            background-color: var(--mometrix-blue);
+            color: var(--white);
+            border: none;
+            padding: 0.7rem 1.4rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-action:hover {
+            background-color: #012a5e;
+            transform: translateY(-1px);
+        }
+
+        /* Score Hero Blocks */
+        .score-hero-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border-bottom: 1px solid var(--border);
+            background-color: #fafbfc;
+        }
+
+        .score-hero-item {
+            padding: 2rem 1rem;
+            text-align: center;
+            border-right: 1px solid var(--border);
+        }
+
+        .score-hero-item:last-child {
+            border-right: none;
+        }
+
+        .hero-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--text-light);
+            letter-spacing: 0.8px;
+            margin-bottom: 0.75rem;
+        }
+
+        .hero-val {
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            line-height: 1.1;
+        }
+
+        .hero-val span {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            font-weight: 400;
+        }
+
+        .hero-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 0.5rem;
+        }
+
+        /* Section Review Area */
+        .section-header-title {
+            padding: 2rem 2rem 0.5rem 2rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--mometrix-blue);
+        }
+
+        .instruction-banner {
+            margin: 0 2rem 1.5rem 2rem;
+            background-color: var(--mometrix-light-blue);
+            border-left: 4px solid var(--mometrix-blue);
+            padding: 0.75rem 1rem;
+            font-size: 0.85rem;
+            border-radius: 0 4px 4px 0;
+            color: #0d47a1;
+        }
+
+        /* Results Table */
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .results-table th {
+            background-color: #f8fafc;
+            color: var(--mometrix-blue);
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 1rem 2rem;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .results-table td {
+            padding: 1.2rem 2rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.95rem;
+        }
+
+        .row-clickable {
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .row-clickable:hover {
+            background-color: #f8fafc;
+        }
+
+        .score-badge {
+            background-color: var(--mometrix-blue);
+            color: var(--white);
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: inline-block;
+        }
+
+        /* Interactive Drawer Panels */
+        .drawer-panel {
+            display: none;
+            background-color: #fcfdfe;
+            border-bottom: 1px solid var(--border);
+            animation: slideDown 0.25s ease-out;
+        }
+
         @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
+            from { opacity: 0; transform: translateY(-8px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .review-desc { font-size: 0.9rem; margin-bottom: 15px; line-height: 1.4; color: #4a5568; padding-left: 10px; border-left: 3px solid var(--mometrix-orange); }
-        .q-preview { background: white; border: 1px solid #e2e8f0; padding: 12px; border-radius: 6px; margin-top: 10px; font-size: 0.85rem; }
-        .tag { font-weight: bold; text-transform: uppercase; font-size: 0.7rem; margin-right: 5px; }
-        .tag-correct { color: var(--success); }
-        .tag-incorrect { color: var(--danger); }
+        .drawer-content {
+            padding: 2rem;
+            border-left: 4px solid var(--mometrix-orange);
+        }
 
-        @media (max-width: 768px) {
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .card-header { flex-direction: column; text-align: center; gap: 15px; }
+        .diagnostic-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .diagnostic-card h4 {
+            color: var(--mometrix-blue);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        .diagnostic-card p {
+            font-size: 0.9rem;
+            color: #4a5568;
+            line-height: 1.5;
+        }
+
+        .question-box {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .question-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-correct {
+            color: var(--success);
+            background-color: #e6f4f1;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+        }
+
+        .badge-incorrect {
+            color: var(--danger);
+            background-color: #fdf2f2;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+        }
+
+        .question-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+        }
+
+        .answer-feedback {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            background: #f8fafc;
+            padding: 0.75rem;
+            border-radius: 6px;
+            border-left: 3px solid var(--border);
+        }
+
+        .text-accent {
+            color: var(--mometrix-blue);
+            font-weight: 600;
+        }
+
+        @media (max-width: 850px) {
+            .score-hero-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .score-hero-item {
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+            .score-hero-item:nth-child(even) {
+                border-left: 1px solid var(--border);
+            }
+            .score-hero-item:nth-last-child(-n+2) {
+                border-bottom: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .score-hero-grid {
+                grid-template-columns: 1fr;
+            }
+            .score-hero-item {
+                border-left: none !important;
+                border-right: none !important;
+                border-bottom: 1px solid var(--border) !important;
+            }
+            .score-hero-item:last-child {
+                border-bottom: none !important;
+            }
+            .portal-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .btn-action {
+                width: 100%;
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
 
-    <nav class="nav">
-        <a href="#" class="logo">Mometrix <span>Academy</span></a>
-        <div style="font-size: 0.9rem; color: var(--mometrix-blue); font-weight: 600;">Student Portal</div>
+    <!-- Header Navigation -->
+    <nav class="navbar">
+        <a href="#" class="brand">Mometrix <span>Academy</span></a>
+        <div class="nav-status">Practice Exam Center</div>
     </nav>
 
+    <!-- Main Content Context -->
     <div class="container">
-        <div class="breadcrumb">Dashboard > MCAT Prep > Full-Length Exam #21977677</div>
+        <div class="breadcrumb">
+            <a href="#">Dashboard</a> &gt; <a href="#">MCAT Full-Length Review</a> &gt; Practice Exam #21977677
+        </div>
 
-        <div class="card">
-            <div class="card-header">
+        <!-- Master Score Report Card -->
+        <div class="score-card">
+            
+            <!-- Report Header -->
+            <div class="portal-header">
                 <div>
-                    <h1>MCAT Practice Test Results</h1>
-                    <p style="color: var(--text-light); font-size: 0.85rem;">Completed on June 15, 2026</p>
+                    <h1>MCAT Exam Score Report</h1>
+                    <p>Attempt ID: #21977677 &bull; Date Submitted: <span id="current-date">June 17, 2026</span></p>
                 </div>
-                <div style="color: var(--mometrix-orange); font-weight: bold; font-size: 0.9rem;">Status: Scored</div>
+                <button class="btn-action" onclick="alert('Preparing download of full raw diagnostic report...')">Print Score Summary</button>
             </div>
 
-            <!-- Stats Section with 507 and 7.4 Hours -->
-            <div class="stats-grid">
-                <div class="stat-box">
-                    <h3>Estimated Score</h3>
-                    <div class="stat-val">507<span>/528</span></div>
+            <!-- Score Hero Statistics -->
+            <div class="score-hero-grid">
+                <div class="score-hero-item">
+                    <div class="hero-title">Estimated Score</div>
+                    <div class="hero-val">505<span>/528</span></div>
+                    <div class="hero-subtitle">Target Goal: 510</div>
                 </div>
-                <div class="stat-box">
-                    <h3>Total Time</h3>
-                    <div class="stat-val">07:24<span>hr</span></div>
-                    <p style="font-size: 0.7rem; color: var(--text-light);">(7.4 Hours)</p>
+                <div class="score-hero-item">
+                    <div class="hero-title">Time Spent</div>
+                    <div class="hero-val">07:10<span>hr</span></div>
+                    <div class="hero-subtitle">7 hrs 10 mins (Active)</div>
                 </div>
-                <div class="stat-box">
-                    <h3>Percentile</h3>
-                    <div class="stat-val">70<span>th</span></div>
+                <div class="score-hero-item">
+                    <div class="hero-title">Percentile Rank</div>
+                    <div class="hero-val">62<span>nd</span></div>
+                    <div class="hero-subtitle">National Comparison Cohort</div>
                 </div>
-                <div class="stat-box">
-                    <h3>Accuracy</h3>
-                    <div class="stat-val">64<span>%</span></div>
+                <div class="score-hero-item">
+                    <div class="hero-title">Overall Accuracy</div>
+                    <div class="hero-val">62.6<span>%</span></div>
+                    <div class="hero-subtitle">144 / 230 Questions Correct</div>
                 </div>
             </div>
 
-            <table class="section-table">
+            <!-- Review Instructions -->
+            <h3 class="section-header-title">Diagnostic Breakdown By Section</h3>
+            <div class="instruction-banner">
+                💡 <strong>Review Guide:</strong> Click on any section below to expand diagnostic analytics and view sample tested concepts.
+            </div>
+
+            <!-- Interactive Results Table -->
+            <table class="results-table">
                 <thead>
                     <tr>
-                        <th>Section Name</th>
-                        <th>Score</th>
+                        <th>Section Title</th>
+                        <th>Correct / Total</th>
+                        <th>Section Score</th>
                         <th>Percentile</th>
                     </tr>
                 </thead>
                 <tbody>
+                    
                     <!-- Chem/Phys -->
-                    <tr onclick="toggle('cp')">
-                        <td>Chemical and Physical Foundations</td>
-                        <td><span class="score-badge">127</span></td>
-                        <td class="percentile">72nd</td>
+                    <tr class="row-clickable" onclick="toggleDrawer('cp-drawer')">
+                        <td><strong>Chemical and Physical Foundations</strong></td>
+                        <td>35 / 59 (59.3%)</td>
+                        <td><span class="score-badge">126</span></td>
+                        <td>63rd</td>
                     </tr>
-                    <tr id="cp" class="review-panel">
-                        <td colspan="3">
-                            <div class="review-desc">You utilized the extra time effectively to double-check stoichiometry and physics unit conversions. Higher accuracy in thermodynamics passages.</div>
-                            <div class="q-preview"><span class="tag tag-correct">Correct</span> Question 12: Work-Energy Theorem application in biological systems.</div>
+                    <tr id="cp-drawer" class="drawer-panel">
+                        <td colspan="4">
+                            <div class="drawer-content">
+                                <div class="diagnostic-card">
+                                    <h4>Section Diagnostic Summary</h4>
+                                    <p>Your performance in Chem/Phys shows stability in fundamental Stoichiometry and Electrochemistry. However, pacing slowed down significantly during physics-heavy passages, leading to a cluster of missed calculations at the end of the section.</p>
+                                </div>
+                                <div class="question-box">
+                                    <div class="question-meta">
+                                        <span>Discrete Question 8</span>
+                                        <span class="badge-correct">✓ Correct</span>
+                                    </div>
+                                    <div class="question-text">
+                                        What is the pH of a solution containing an acetic acid concentration of $0.1\text{ M}$ and a sodium acetate concentration of $1.0\text{ M}$? ($K_a \text{ of acetic acid} = 1.8 \times 10^{-5}$)
+                                    </div>
+                                    <div class="answer-feedback">
+                                        <span class="text-accent">Explanation:</span> This calculation successfully applied the Henderson-Hasselbalch equation: $\text{pH} = \text{pK}_a + \log\left(\frac{[\text{A}^-]}{[\text{HA}]}\right)$.
+                                    </div>
+                                </div>
+                                <div class="question-box">
+                                    <div class="question-meta">
+                                        <span>Passage 3, Question 14</span>
+                                        <span class="badge-incorrect">✕ Incorrect</span>
+                                    </div>
+                                    <div class="question-text">
+                                        Which mathematical expression defines the volumetric flow rate ($Q$) of an ideal fluid through a narrowing horizontal pipe with a cross-sectional area decreasing from $A_1$ to $A_2$?
+                                    </div>
+                                    <div class="answer-feedback">
+                                        <span class="text-accent">Explanation:</span> You mistakenly applied Bernoulli's Equation alone. The correct application was the Continuity Equation, which dictates that $Q = A_1v_1 = A_2v_2$ remains constant in ideal fluid laminar flow.
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
 
                     <!-- CARS -->
-                    <tr onclick="toggle('cars')">
-                        <td>Critical Analysis and Reasoning</td>
-                        <td><span class="score-badge">126</span></td>
-                        <td class="percentile">66th</td>
+                    <tr class="row-clickable" onclick="toggleDrawer('cars-drawer')">
+                        <td><strong>Critical Analysis and Reasoning Skills</strong></td>
+                        <td>31 / 53 (58.5%)</td>
+                        <td><span class="score-badge">125</span></td>
+                        <td>53rd</td>
                     </tr>
-                    <tr id="cars" class="review-panel">
-                        <td colspan="3">
-                            <div class="review-desc">Good pacing. Improvements seen in "Reasoning Within the Text" questions. Focused reading helped reduce errors in Social Science passages.</div>
-                            <div class="q-preview"><span class="tag tag-incorrect">Incorrect</span> Question 4: Author's tone extrapolation in 18th-century literature passage.</div>
+                    <tr id="cars-drawer" class="drawer-panel">
+                        <td colspan="4">
+                            <div class="drawer-content">
+                                <div class="diagnostic-card">
+                                    <h4>Section Diagnostic Summary</h4>
+                                    <p>Strong comprehension displays in Humanities and Arts segments. Performance dropped inside History/Economics passages due to choosing over-generalized options that extrapolated beyond the direct evidence of the text.</p>
+                                </div>
+                                <div class="question-box">
+                                    <div class="question-meta">
+                                        <span>Passage 1, Question 3</span>
+                                        <span class="badge-correct">✓ Correct</span>
+                                    </div>
+                                    <div class="question-text">
+                                        The author most likely discusses the preservation of medieval architecture in order to:
+                                    </div>
+                                    <div class="answer-feedback">
+                                        <span class="text-accent">Explanation:</span> Correctly identified the "Foundations of Comprehension" key by tying the architectural detail directly back to the author’s primary thesis in paragraph 2.
+                                    </div>
+                                </div>
+                                <div class="question-box">
+                                    <div class="question-meta">
+                                        <span>Passage 5, Question 27</span>
+                                        <span class="badge-incorrect">✕ Incorrect</span>
+                                    </div>
+                                    <div class="question-text">
+                                        Which of the following new discoveries, if true, would most weaken the author's primary argument regarding mercantilist economic policy?
+                                    </div>
+                                    <div class="answer-feedback">
+                                        <span class="text-accent">Explanation:</span> This "Reasoning Beyond the Text" item was missed because you chose an option that supported rather than weakened the author's argument. Always evaluate the logical impact of hypothetical modifications strictly.
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
 
-                    <!-- Bio -->
-                    <tr onclick="toggle('bb')">
-                        <td>Biological and Biochemical Foundations</td>
+                    <!-- Bio/Biochem -->
+                    <tr class="row-clickable" onclick="toggleDrawer('bio-drawer')">
+                        <td><strong>Biological and Biochemical Foundations</strong></td>
+                        <td>39 / 59 (66.1%)</td>
                         <td><span class="score-badge">127</span></td>
-                        <td class="percentile">70th</td>
+                        <td>70th</td>
                     </tr>
-                    <tr id="bb" class="review-panel">
-                        <td colspan="3">
-                            <div class="review-desc">Strong performance on metabolic pathway questions (Glycolysis/TCA). Data interpretation of Western Blot results remains a growth area.</div>
-                            <div class="q-preview"><span class="tag tag-correct">Correct</span> Question 34: Enzyme kinetics and Michaelis-Menten constants.</div>
+                    <tr id="bio-drawer" class="drawer-panel">
+                        <td colspan="4">
+                            <div class="drawer-content">
+                                <div class="diagnostic-card">
+                                    <h4>Section Diagnostic Summary</h4>
+                                    <p>Excellent foundational knowledge displayed in organ system anatomy and amino acid properties. Points were mainly lost during advanced biochemical lab technique passages (Western Blots, Isoelectric Focusing, and Knock-out vectors).</p>
+                                </div>
+                                <div class="question-box">
+                                    <div class="question-meta">
+                                        <span>Discrete Question 11</span>
+                                        <span class="badge-correct">✓ Correct</span>
+                                    </div>
+                                    <div class="question-text">
+                                        At physiological $\text{pH}$ ($7.4$), which of the following amino acid residues carries a net negative charge?
+                                    </div>
+                                    <div class="answer-feedback">
+                                        <span class="text-accent">Explanation:</span> Aspartate (Asp, D) and Glutamate (Glu, E) are acidic amino acids that remain deprotonated and negatively charged at physiological conditions.
+                                    </div>
+                                </div>
+                                <div class="question-box">
+                                    <div class="question-meta">
+                                        <span>Passage 4, Question 21</span>
+                                        <span class="badge-incorrect">✕ Incorrect</span>
+                                    </div>
+                                    <div class="question-text">
+                                        How will an uncompetitive inhibitor affect the apparent Michaelis constant ($K_m$) and the maximum velocity ($V_{max}$) of an enzymatic reaction?
+                                    </div>
+                                    <div class="answer-feedback">
+                                        <span class="text-accent">Explanation:</span> You incorrectly concluded that $V_{max}$ is unaffected. Uncompetitive inhibitors bind exclusively to the enzyme-substrate (ES) complex, decreasing both $K_m$ and $V_{max}$ by the same ratio.
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
 
-                    <!-- Psych -->
-                    <tr onclick="toggle('ps')">
-                        <td>Psychological and Social Foundations</td>
+                    <!-- Psych/Soc -->
+                    <tr class="row-clickable" onclick="toggleDrawer('psych-drawer')">
+                        <td><strong>Psychological and Social Foundations</strong></td>
+                        <td>39 / 59 (66.1%)</td>
                         <td><span class="score-badge">127</span></td>
-                        <td class="percentile">71st</td>
+                        <td>71st</td>
                     </tr>
-                    <tr id="ps" class="review-panel">
-                        <td colspan="3">
-                            <div class="review-desc">Consistent accuracy across sociological theories. Slower pace allowed for better distinction between similar psychological constructs.</div>
-                            <div class="q-preview"><span class="tag tag-correct">Correct</span> Question 51: Comparison of Conflict Theory vs. Structural Functionalism.</div>
+                    <tr id="psych-drawer" class="drawer-panel">
+                        <td colspan="4">
+                            <div class="drawer-content">
+                                <div class="diagnostic-card">
+                                    <h4>Section Diagnostic Summary</h4>
+                                    <p>This was your highest percentile score. Terminology tracking is robust. Make sure to review the nuances between similar cognitive development theories and sociological conflict models to secure higher scores.</p>
+                                </div>
+                                <div class="question-box">
+                                    <div class="question-meta">
+                                        <span>Passage 6, Question 38</span>
+                                        <span class="badge-correct">✓ Correct</span>
+                                    </div>
+                                    <div class="question-text">
+                                        Which sociological perspective emphasizes how structural inequalities produce systemic social changes over time?
+                                    </div>
+                                    <div class="answer-feedback">
+                                        <span class="text-accent">Explanation:</span> Correctly chose Conflict Theory. Conflict theory focuses on the competition between different social groups for scarce resources and power.
+                                    </div>
+                                </div>
+                                <div class="question-box">
+                                    <div class="question-meta">
+                                        <span>Discrete Question 45</span>
+                                        <span class="badge-incorrect">✕ Incorrect</span>
+                                    </div>
+                                    <div class="question-text">
+                                        A child begins to understand conservation of volume but still struggles with abstract scientific hypotheticals. According to Piaget, what stage is this child in?
+                                    </div>
+                                    <div class="answer-feedback">
+                                        <span class="text-accent">Explanation:</span> You selected Preoperational. Piaget's developmental framework classifies understanding conservation under the Concrete Operational stage (ages 7 to 11).
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
+
                 </tbody>
             </table>
+
         </div>
     </div>
 
+    <!-- Interactive script to handle drawer toggling and dynamically populate today's date -->
     <script>
-        function toggle(id) {
-            var el = document.getElementById(id);
-            if (el.style.display === "table-row") {
-                el.style.display = "none";
+        // Dynamically insert current date matching system timestamp
+        document.addEventListener('DOMContentLoaded', () => {
+            const dateSpan = document.getElementById('current-date');
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const today = new Date(); // Updates strictly to today's local date
+            dateSpan.textContent = today.toLocaleDateString('en-US', options);
+        });
+
+        // Toggle drawer function
+        function toggleDrawer(drawerId) {
+            const allDrawers = document.querySelectorAll('.drawer-panel');
+            allDrawers.forEach(drawer => {
+                if (drawer.id !== drawerId) {
+                    drawer.style.display = 'none';
+                }
+            });
+
+            const targetDrawer = document.getElementById(drawerId);
+            if (targetDrawer.style.display === 'table-row') {
+                targetDrawer.style.display = 'none';
             } else {
-                // Hide others
-                document.querySelectorAll('.review-panel').forEach(p => p.style.display = "none");
-                el.style.display = "table-row";
+                targetDrawer.style.display = 'table-row';
+                targetDrawer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         }
     </script>
-
 </body>
 </html>
